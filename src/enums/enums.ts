@@ -36,3 +36,8 @@ export enum CardTypes {
   MasterCard = "mastercard",
   Visa = "visa",
 }
+
+export enum PasswordField {
+  TEXT = "text",
+  PASSWORD = "password",
+}

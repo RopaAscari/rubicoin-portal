@@ -15,7 +15,7 @@ import { Routes, VerificationTypes } from "@enums/enums";
 import MDTypography from "@components/MDTypography";
 import { RootState } from "@reducers/combinedReducers";
 import BasicLayout from "@layouts/BasicLayout/BasicLayout";
-import bgImage from "@assets/images/bg-sign-in-basic.jpeg";
+import bgImage from "@assets/images/intial-background.jpg";
 import RenderDelegate from "@components/RenderDelegate/RenderDelegate";
 import { VERIFY_CODE, SEND_VERIFICATION_CODE } from "@queries/queries";
 import CircularProgress from "@mui/material/CircularProgress/CircularProgress";

@@ -3,6 +3,9 @@ export interface User {
   email: string;
   firstName: string;
   lastName: string;
+  ipAddress: string;
+  countryCode:string;
+  countryName:string;
   profilePic: string;
   phoneNumber: string;
   walletConnected: boolean;
@@ -60,6 +63,22 @@ export interface CardForm {
   postalCode: ErrorMessage;
 }
 
+export interface IPResponse {
+  success: boolean;
+  ipAddress: string | null;
+}
+
 export const DESKTOP_APP_NAME = "Rubicoin.exe";
 
 export type TransitionType = "vertical" | "horizontal";
+
+export const GEOLOCATION_API = "https://geolocation-db.com/json/";
+
+export const INPUT_THEME = {
+  DARK: {
+    style: { color: "#9A9A9A" },
+  },
+  LIGHT: {
+    style: { color: "#9A9A9A" },
+  },
+} as any;

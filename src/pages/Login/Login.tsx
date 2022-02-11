@@ -8,59 +8,51 @@ import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import MDBox from "@components/MDBox";
 import Card from "@mui/material/Card";
-import MuiLink from "@mui/material/Link";
-import { makeStyles } from "@mui/styles";
-import { useDispatch } from "react-redux";
-import { Routes } from "../../enums/enums";
 import Switch from "@mui/material/Switch";
-import MDInput from "@components/MDInput";
+import { Routes } from "../../enums/enums";
 import MDButton from "@components/MDButton";
 import { useMutation } from "@apollo/client";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import GoogleIcon from "@mui/icons-material/Google";
+import { InputAdornment } from "@mui/material";
 import MDTypography from "@components/MDTypography";
 import { AUTHETICATE_USER } from "@queries/queries";
+import { useDispatch, useSelector } from "react-redux";
 import { SetUserAction } from "@actions/setUserAction";
 import { motion, AnimatePresence } from "framer-motion";
-import FacebookIcon from "@mui/icons-material/Facebook";
 import { SetTokenAction } from "@actions/setTokenAction";
 import { parseGQLErrors, sanitizeJWT } from "@utils/index";
-import bgImage from "@assets/images/bg-sign-in-basic.jpeg";
+import bgImage from "@assets/images/intial-background.jpg";
 import BasicLayout from "@layouts/BasicLayout/BasicLayout";
+import { CustomInput, Field } from "@components/Field/Field";
+import { Email } from "@styled-icons/material-outlined/Email";
+import { getUserIPAddress } from "../../provider/api/getUserIpAddress";
 import RenderDelegate from "@components/RenderDelegate/RenderDelegate";
 import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
 
 type Props = {
-  history: History; 
+  history: History;
 };
-
-const useHelperTextStyles = makeStyles(() => ({
-  root: {
-    color: "red",
-  },
-}));
 
 const LoginPage: React.FunctionComponent<Props> = (props: Props) => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const helperTextStyles = useHelperTextStyles();
   const [errors, setErrors] = useState({} as any);
 
   const [rememberMe, setRememberMe] = useState(false);
   const [authenticate] = useMutation(AUTHETICATE_USER);
-
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = async(event: any) => {
     event.preventDefault();
 
     setErrors({});
     setLoading((prevstate) => !prevstate);
+
+    const ipAddress = (await getUserIPAddress()).ipAddress
     // eslint-disable-next-line no-console
     authenticate({
-      variables: { email, password },
+      variables: { email, password, ipAddress },
     })
       .then((response) => {
         const token = response.data.authenticateUser.token;
@@ -79,13 +71,13 @@ const LoginPage: React.FunctionComponent<Props> = (props: Props) => {
         props.history.push(`${Routes.App}/${Routes.Dashboard}`);
       })
       .catch((error) => {
-        const errorMessage = parseGQLErrors(error);
+        const message = parseGQLErrors(error);
 
         setErrors({
-          invalidCredentials: errorMessage,
+          message: message,
         });
 
-        toast.error(errorMessage);
+        toast.error(message);
         setLoading((prevstate) => !prevstate);
       });
   };
@@ -130,7 +122,8 @@ const LoginPage: React.FunctionComponent<Props> = (props: Props) => {
                 >
                   Sign in
                 </MDTypography>
-                <Grid
+
+                {/*<Grid
                   container
                   spacing={3}
                   justifyContent="center"
@@ -166,43 +159,44 @@ const LoginPage: React.FunctionComponent<Props> = (props: Props) => {
                       <GoogleIcon color="inherit" />
                     </MDTypography>
                   </Grid>
-                </Grid>
+                </Grid>*/}
               </MDBox>
               <MDBox pt={4} pb={3} px={3}>
                 <MDBox component="form" role="form">
                   <MDBox mb={2}>
-                    <MDInput
+                    <CustomInput
                       fullWidth
-                      type="email"
+                      type="text"
                       label="Email"
-                      id="outlined-error-helper-text"
                       error={Object.keys(errors).length > 0}
-                      onChange={(e: any) => setEmail(e.target.value)}
-                      FormHelperTextProps={{
-                        classes: {
-                          root: helperTextStyles.root,
-                        },
-                      }}
+                      onChange={(
+                        e: React.ChangeEvent<
+                          HTMLTextAreaElement | HTMLInputElement
+                        >
+                      ) => setEmail(e.target.value)}
+
+                      inputProps={{
+                        endAdornment: (
+                           <InputAdornment position="start">
+                             {" "}
+                             <Email size={23} />
+                           </InputAdornment>
+                         ),
+                       }}
                     />
                   </MDBox>
                   <MDBox mb={2}>
-                    <MDInput
-                      fullWidth             
-                      type="password"
+                    <CustomInput
+                      fullWidth
                       label="Password"
-                      id="outlined-error-helper-text"
+                      hasPassword={true}
                       error={Object.keys(errors).length > 0}
-                      onChange={(e: any) => setPassword(e.target.value)}
-                      helperText={
-                        Object.keys(errors).length > 0
-                          ? errors.invalidCredentials
-                          : ""
-                      }
-                      FormHelperTextProps={{
-                        classes: {
-                          root: helperTextStyles.root,
-                        },
-                      }}
+                      onChange={(
+                        e: React.ChangeEvent<
+                          HTMLTextAreaElement | HTMLInputElement
+                        >
+                      ) => setPassword(e.target.value)}
+                      helperText={errors.message}
                     />
                   </MDBox>
                   <Box display="flex"></Box>
@@ -214,6 +208,7 @@ const LoginPage: React.FunctionComponent<Props> = (props: Props) => {
                     <Grid item xs>
                       <MDBox display="flex" alignItems="center" ml={-1}>
                         <Switch
+                          color="info"
                           checked={rememberMe}
                           onChange={handleSetRememberMe}
                         />

@@ -53,7 +53,7 @@ const defaultOptions: DefaultOptions = {
     fetchPolicy: "no-cache",
     errorPolicy: "ignore",
   },
-  query: {
+  query: { 
     fetchPolicy: "no-cache",
     errorPolicy: "all",
   },

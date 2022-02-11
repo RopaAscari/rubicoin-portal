@@ -89,7 +89,10 @@ export default function DashboardNavbar({ onSearch, onOpenSidebar }: Props) {
 
   useEffect(() => {
     history.listen((location: any) => {
-      configureBreadCrumbs(location.pathname);
+      console.log(`LOCATIOn ${location}`)
+      if (location.pathname.includes(`${Routes.App}`)) {
+        configureBreadCrumbs(location.pathname);
+      }
     });
   }, [history]);
 
@@ -114,33 +117,37 @@ export default function DashboardNavbar({ onSearch, onOpenSidebar }: Props) {
   };
 
   const configureBreadCrumbs = (path: string) => {
-    const mainPath = path.split(`/${Routes.App}/`)[1];
+    try {
+      const mainPath = path.split(`/${Routes.App}/`)[1];
 
-    const subLevels = mainPath.split("/");
+      const subLevels = mainPath.split("/");
 
-    const breadcrumbs = subLevels.map((level, idx) => {
-      if (idx !== subLevels.length - 1) {
-        return (
-          <Link
-            key="2"
-            color="inherit"
-            underline="hover"
-            onClick={() => history.push}
-            sx={{ cursor: "pointer" }}
-          >
-            {sanitizeCrumbTitle(level)}
-          </Link>
-        );
-      } else {
-        return (
-          <Typography key="3" color="text.primary">
-            {sanitizeCrumbTitle(level)}
-          </Typography>
-        );
-      }
-    });
+      const breadcrumbs = subLevels.map((level, idx) => {
+        if (idx !== subLevels.length - 1) {
+          return (
+            <Link
+              key="2"
+              color="inherit"
+              underline="hover"
+              onClick={() => history.push}
+              sx={{ cursor: "pointer" }}
+            >
+              {sanitizeCrumbTitle(level)}
+            </Link>
+          );
+        } else {
+          return (
+            <Typography key="3" color="text.primary">
+              {sanitizeCrumbTitle(level)}
+            </Typography>
+          );
+        }
+      });
 
-    setBreadCrumbs(breadcrumbs);
+      setBreadCrumbs(breadcrumbs);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (

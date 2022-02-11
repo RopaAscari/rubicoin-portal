@@ -13,10 +13,11 @@ import { parseGQLErrors } from "@utils/index";
 import { RESET_PASSWORD } from "@queries/queries";
 import MDTypography from "@components/MDTypography";
 import BasicLayout from "@layouts/BasicLayout/BasicLayout";
-import bgImage from "@assets/images/bg-sign-in-basic.jpeg";
+import bgImage from "@assets/images/intial-background.jpg";
 import RenderDelegate from "@components/RenderDelegate/RenderDelegate";
 import { RootState } from "@reducers/combinedReducers";
 import { useSelector } from "react-redux";
+import { CustomInput } from "@components/Field/Field";
 
 type Props = {
   history: History;
@@ -94,9 +95,10 @@ export default function ResetPasswordPage({ history }: Props) {
           <MDBox pt={4} pb={3} px={3}>
             <MDBox component="form" role="form">
               <MDBox mb={4}>
-                <MDInput
+                <CustomInput
                   fullWidth
                   type="password"
+                  hasPassword={true}
                   variant="outlined"
                   label="Old Password"
                   onChange={(e: any) => setOldPassword(e.target.value)}
@@ -104,8 +106,9 @@ export default function ResetPasswordPage({ history }: Props) {
               </MDBox>
 
               <MDBox mb={4}>
-                <MDInput
+                <CustomInput
                   fullWidth
+                  hasPassword={true}
                   type="password"
                   variant="outlined"
                   label="New Password"

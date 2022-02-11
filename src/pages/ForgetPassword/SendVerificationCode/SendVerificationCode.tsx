@@ -2,24 +2,25 @@ import * as React from "react";
 import { useState } from "react";
 import { History } from "history";
 import toast from "react-hot-toast";
-import { Card, Grid } from "@mui/material";
-import { Routes, VerificationTypes } from "@enums/enums";
 import MDBox from "@components/MDBox";
 import { motion } from "framer-motion";
+import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import MDInput from "@components/MDInput";
 import MDButton from "@components/MDButton";
 import { useMutation } from "@apollo/client";
 import { parseGQLErrors } from "@utils/index";
 import MDTypography from "@components/MDTypography";
+import { Routes, VerificationTypes } from "@enums/enums";
 import { SEND_VERIFICATION_CODE } from "@queries/queries";
 import BasicLayout from "@layouts/BasicLayout/BasicLayout";
-import bgImage from "@assets/images/bg-sign-in-basic.jpeg";
+import bgImage from "@assets/images/intial-background.jpg";
+import { Card, Grid, InputAdornment } from "@mui/material";
+import { CustomInput, Field } from "@components/Field/Field";
+import { Email } from "@styled-icons/material-outlined/Email"
+import { ArrowBack } from "@styled-icons/ionicons-solid/ArrowBack";
 import { SetRecoveryOptions } from "@actions/setRecoveryOptions";
 import RenderDelegate from "@components/RenderDelegate/RenderDelegate";
 import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
-import styled from "styled-components";
-import { ArrowBack } from "@styled-icons/ionicons-solid/ArrowBack";
 
 type Props = {
   history: History;
@@ -115,12 +116,13 @@ export default function SendVerificationCodePage({ history }: Props) {
           <MDBox pt={4} pb={3} px={3}>
             <MDBox component="form" role="form">
               <MDBox mb={4}>
-                <MDInput
+                <CustomInput
                   fullWidth
-                  type="email"
+                  type="text"
                   label="Email"
-                  variant="standard"
+                  placeholder="Enter your email address"
                   onChange={(e: any) => setEmail(e.target.value)}
+                  inputProps={{ endAdornment: (  <InputAdornment position="start"> <Email size={20}/></InputAdornment>)}}                                       
                 />
               </MDBox>
               <MDBox mt={6} mb={1}>

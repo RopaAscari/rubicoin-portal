@@ -9,20 +9,31 @@ export const GET_USERS = gql`
 `;
 
 export const REGISTER_USER = gql`
+
   mutation RegisterUser(
     $firstName: String!
     $lastName: String!
     $email: String!
+    $countryCode: String!
+    $countryName: String!
+    $province: String!
+    $ipAddress: String!
     $phoneNumber: String!
     $password: String!
+    $termsAgreed: Boolean!
   ) {
     registerUser(
       input: {
-        firstName: $firstName
-        lastName: $lastName
-        email: $email
-        phoneNumber: $phoneNumber
+        email: $email 
+        province: $province
         password: $password
+        lastName: $lastName
+        firstName: $firstName
+        ipAddress: $ipAddress
+        termsAgreed:$termsAgreed,
+        countryCode: $countryCode
+        countryName: $countryName
+        phoneNumber: $phoneNumber
       }
     ) {
       token
@@ -31,8 +42,14 @@ export const REGISTER_USER = gql`
 `;
 
 export const AUTHETICATE_USER = gql`
-  mutation AuthenticateUser($email: String!, $password: String!) {
-    authenticateUser(input: { email: $email, password: $password }) {
+  mutation AuthenticateUser(
+    $email: String!
+    $password: String!
+    $ipAddress: String!
+  ) {
+    authenticateUser(
+      input: { email: $email, password: $password, ipAddress: $ipAddress }
+    ) {
       token
     }
   }
@@ -120,7 +137,6 @@ export const GET_USER_WALLET = gql`
   }
 `;
 
-
 export const GET_PAYMENT_METHODS = gql`
   query GetUserPaymentMethods($uid: String!) {
     getUserPaymentMethods(arguments: { uid: $uid }) {
@@ -138,7 +154,6 @@ export const GET_PAYMENT_METHODS = gql`
     }
   }
 `;
-
 
 export const CREATE_PAYMENT_METHOD = gql`
   mutation CreatePaymentMethod(

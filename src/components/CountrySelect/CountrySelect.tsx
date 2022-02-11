@@ -10,13 +10,14 @@ import { allCountries } from "country-region-data";
 
 type Props = {
   name: any;
-  error: any;
-  style: any;
+  label: any;
+  error?: any;
+  style?: any;
   country: any;
   classes?: any;
-  helperText: any;
+  helperText?: any;
   placeholder: any;
-  onFocus: (e: any) => void;
+  onFocus?: (e: any) => void;
   onChange: (country: any, province: any) => void;
 };
 
@@ -31,25 +32,18 @@ const Menu = styled(MenuItem)(({ theme }) => ({
 const SelectApi = styled(Select)(({ theme }) => ({
   select: {
     "&:before": {
-      borderColor: "red",
+      borderColor: "white",
     },
     "&:hover:not(.Mui-disabled):before": {
-      borderColor: "red",
+      borderColor: "white",
     },
   },
 }));
 
-const styles = (theme: any) => ({
-  select: {
-    "&:before": {
-      borderColor: "red",
-    },
-  },
-});
-
 const CountrySelect: React.FC<Props> = ({
   name,
   error,
+  label,
   country,
   onFocus,
   onChange,
@@ -60,6 +54,7 @@ const CountrySelect: React.FC<Props> = ({
     <FormControl sx={{ width: "100%", marginRight: 1 }}>
       <SelectApi
         name={name}
+        label={label}
         displayEmpty
         error={error}
         value={country}
@@ -74,8 +69,8 @@ const CountrySelect: React.FC<Props> = ({
         }}
         sx={{
           background: (theme) => theme.palette.background.default,
-          "fieldset": {
-            border: "1px solid #3A3A3A"
+          fieldset: {
+            border: "1px solid #3A3A3A",
           },
           "&:hover": {
             "&& fieldset": {
@@ -91,11 +86,9 @@ const CountrySelect: React.FC<Props> = ({
           PaperProps: {
             sx: {
               "& .MuiMenuItem-root.Mui-selected": {
-                  
                 backgroundColor: "#343434",
               },
               "& .MuiMenuItem-root:hover": {
-                color:"red",
                 backgroundColor: "#343434",
               },
               "& .MuiMenuItem-root.Mui-selected:hover": {
@@ -106,10 +99,9 @@ const CountrySelect: React.FC<Props> = ({
         }}
       >
         <Menu
-        disabled={true}
+          disabled={true}
           value=""
           sx={{
-             
             background: (theme) => theme.palette.background.default,
           }}
         >

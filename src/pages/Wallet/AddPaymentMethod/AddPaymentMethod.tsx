@@ -1,4 +1,3 @@
-
 import toast from "react-hot-toast";
 import MDBox from "@components/MDBox";
 import { useSelector } from "react-redux";
@@ -6,6 +5,7 @@ import MDButton from "@components/MDButton";
 import { useMutation } from "@apollo/client";
 import { parseGQLErrors } from "@utils/index";
 import { CardForm } from "@constants/constants";
+import { Field } from "@components/Field/Field";
 import { Routes, Transition } from "@enums/enums";
 import "react-credit-cards/es/styles-compiled.css";
 import React, { useEffect, useState } from "react";
@@ -20,27 +20,8 @@ import ProvinceSelect from "@components/ProvinceSelect/ProvinceSelect";
 import { Grid, CircularProgress, styled, TextField } from "@mui/material";
 import usePreviousLocation from "@components/UsePreviousLocation/usePreviousLocation";
 
-type Props = {};
 
-const Field = styled(TextField)(({ theme }) => ({
-  "& label.Mui-focused": {
-    color: "inherit",
-  },
-  "& .MuiInput-underline:after": {
-    borderBottomColor: "#308AF9",
-  },
-  "& .MuiOutlinedInput-root": {
-    "& fieldset": {
-      borderColor: "#3A3A3A",
-    },
-    "&:hover fieldset": {
-      borderColor: "#308AF9",
-    },
-    "&.Mui-focused fieldset": {
-      borderColor: "#308AF9",
-    },
-  },
-}));
+type Props = {};
 
 const AddPaymentMethodPage: React.FC<Props> = () => {
   const history = useHistory();
@@ -59,7 +40,7 @@ const AddPaymentMethodPage: React.FC<Props> = () => {
   const [interaction, setInteraction] = useState(false);
 
   const [cvc, setCvc] = useState("");
-  const [focused, setFocused] = useState("");
+  const [focused,   setFocused] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [cardHolderName, setCardHolderName] = useState("");
@@ -474,6 +455,7 @@ const AddPaymentMethodPage: React.FC<Props> = () => {
           >
             <CountrySelect
               name="country"
+              label="Country"
               placeholder="Select Country"
               onFocus={handleInputFocus}
               style={{ marginRight: 10 }}
@@ -488,6 +470,7 @@ const AddPaymentMethodPage: React.FC<Props> = () => {
 
             <ProvinceSelect
               name="province"
+              label={'Province'}
               placeholder="Select Province"
               onFocus={handleInputFocus}
               style={{ marginRight: 10 }}
